@@ -18,7 +18,7 @@ public class PostController {
     @ResponseBody
     public String writeForm() {
 
-        return getWriteForm();
+        return getWriteForm("", "", "");
     }
 
     @PostMapping("/posts/write")
@@ -30,14 +30,14 @@ public class PostController {
             return """
                     <div style="color:red">제목을 입력해주세요.</div>
                     %s
-                    """.formatted(getWriteForm());
+                    """.formatted(getWriteForm(title, content, "title"));
         }
 
         if(content.isBlank()) {
             return """
                     <div style="color:red">내용을 입력해주세요.</div>
                     %s
-                    """.formatted(getWriteForm());
+                    """.formatted(getWriteForm(title, content, "content"));
         }
         //
 
@@ -46,15 +46,24 @@ public class PostController {
         return "%d번 글이 작성되었습니다.".formatted(post.getId());
     }
 
-    private String getWriteForm() {
+    private String getWriteForm(String title, String content, String errorFieldName) {
         return """
                 <form method="post" action="/posts/write">
-                  <input type="text" name="title">
+                  <input type="text" name="title" value="%s" autoFocus>
                   <br>
-                  <textarea name="content"></textarea>
+                  <textarea name="content">%s</textarea>
                   <br>
                   <input type="submit" value="작성">
                 </form>
-                """;
+                
+                <script>
+                    const errorFieldName = "%s";
+                
+                    if(errorFieldName.length > 0) {
+                        const form = document.querySelector("form");
+                        form[errorFieldName].focus();
+                    }
+                </script>
+                """.formatted(title, content, errorFieldName);
     }
 }
