@@ -49,7 +49,7 @@ public class PostController {
 
         Post post = postService.write(form.title, form.content);
         model.addAttribute("id", post.getId());
-        return "redirect:/posts/write"; // GET요청
+        return "redirect:/posts/%d".formatted(post.getId()); // GET요청
     }
 
     @GetMapping("/posts/{id}")
