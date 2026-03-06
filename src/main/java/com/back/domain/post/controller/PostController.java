@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +38,8 @@ public class PostController {
     }
 
     @PostMapping("/posts/write")
-    public String write(@Valid WriteRequestForm form, BindingResult bindingResult) {
+    public String write(@Valid WriteRequestForm form, BindingResult bindingResult,
+                        Model model) {
 
         if(bindingResult.hasErrors()) {
 
@@ -52,12 +54,14 @@ public class PostController {
                     .collect(Collectors.joining("\n"));
 
             // 템플릿 응답
+            model.addAttribute("errorMessages", errorMessages);
             return "write";
         }
 
         Post post = postService.write(form.title, form.content);
 
         // 템플릿 응답
-        return "%d번 글이 작성되었습니다.".formatted(post.getId());
+        model.addAttribute("id", post.getId());
+        return "writeDone";
     }
 }
