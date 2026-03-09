@@ -51,6 +51,13 @@ public class PostController {
         return "redirect:/posts/%d".formatted(post.getId()); // GET요청
     }
 
+    @GetMapping("/posts")
+    public String list(Model model) {
+
+        model.addAttribute("posts", postService.findAll());
+        return "list";
+    }
+
     @GetMapping("/posts/{id}")
     public String detail(@PathVariable int id, Model model) {
         Post post = postService.findById(id).get();
