@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,6 +76,7 @@ public class PostController {
     }
 
     @PostMapping("/posts/{id}/modify")
+    @Transactional
     public String modify(@PathVariable int id,
                          @Valid @ModelAttribute("form") ModifyRequestForm form,
                          BindingResult bindingResult) {
@@ -86,7 +88,6 @@ public class PostController {
         Post post = postService.modify(id, form.title, form.content);
         return "redirect:/posts/%d".formatted(post.getId()); // GET요청
     }
-
 
     @GetMapping("/posts")
     public String list(Model model) {
