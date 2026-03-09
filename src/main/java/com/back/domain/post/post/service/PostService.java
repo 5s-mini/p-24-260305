@@ -1,7 +1,7 @@
-package com.back.domain.post.service;
+package com.back.domain.post.post.service;
 
-import com.back.domain.post.entity.Post;
-import com.back.domain.post.repository.PostRepository;
+import com.back.domain.post.post.entity.Post;
+import com.back.domain.post.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +22,7 @@ public class PostService {
     public Post modify(int id, String title, String content) {
         Post post = postRepository.findById(id).get();
         post.update(title, content);
+
         return post;
     }
 
