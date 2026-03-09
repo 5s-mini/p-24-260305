@@ -88,7 +88,7 @@ public class PostController {
     }
 
 
-    @GeMapping("/posts")
+    @GetMapping("/posts")
     public String list(Model model) {
 
         model.addAttribute("posts", postService.findAll());
