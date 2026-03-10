@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @Controller
 @RequiredArgsConstructor
@@ -58,7 +59,7 @@ public class CommentController {
             @Size(min = 2, max = 100, message = "02-content-댓글 내용은 2자 이상 100자 이하로 입력해주세요.")
             String content) {}
 
-    @PostMapping("/posts/{postId}/comments/{commentId}/modify")
+    @PutMapping("/posts/{postId}/comments/{commentId}/modify")
     @Transactional
     public String modify(@PathVariable int postId, @PathVariable int commentId, @Valid ModifyRequestForm form) {
         Post post = postService.findById(postId).get();
